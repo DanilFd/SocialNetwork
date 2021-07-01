@@ -1,6 +1,17 @@
-import React from 'react';
 import './index.css';
-import {state} from './redux/state';
-import {renderTree} from "./render";
+import {State, store} from './redux/state';
+import ReactDOM from "react-dom";
+import React from "react";
+import {App} from "./app";
 
-renderTree(state)
+const renderTree = (state: State) => {
+    ReactDOM.render(
+        <React.StrictMode>
+            <App {...state}/>
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
+}
+renderTree(store.getState())
+store.subscribe(renderTree)
+

@@ -1,28 +1,35 @@
 import React, {useRef} from 'react';
 import {User} from "./users/user";
 import {Message} from "./messages/message";
-import {MessagesData, UsersData} from "../../types/posts";
+import {
+    addMessageActionCreator,
+    DialogsPage,
+    updateNewMessageTextActionCreator
+} from '../../redux/state';
 
 
 type Props = {
-    users: UsersData[]
-    message: MessagesData[]
+    dialogsPage: DialogsPage
+    dispatch: any
+    newMessageText: string
 }
 export const Dialogs = (props: Props) => {
-    const newMessage = useRef<HTMLTextAreaElement>(null)
+    const newMessageElement = useRef<HTMLTextAreaElement>(null)
     return (
         <div style={{color: "white"}} className="row">
             <div className="col-3 ">
-                {props.users.map(user => <User name={user.name} key={user.id} id={user.id}/>)}
+                {props.dialogsPage.usersData.map(user => <User name={user.name} key={user.id} id={user.id}/>)}
             </div>
             <div className="col-9">
-                {props.message.map((message, i) => <Message key={i} message={message.message}/>)}
+                {props.dialogsPage.messagesData.map((message, i) => <Message key={i} message={message.message}/>)}
             </div>
             <div className="m-lg-auto">
-                <textarea ref={newMessage}/>
+                <textarea ref={newMessageElement}
+                          onChange={event => props.dispatch(updateNewMessageTextActionCreator(event.target.value))}
+                          value={props.newMessageText}/>
             </div>
             <div>
-                <button className="btn btn-dark" onClick={() => alert(newMessage.current?.value)}>Send</button>
+                <button onClick={() => props.dispatch(addMessageActionCreator())} className="btn btn-dark">Send</button>
             </div>
         </div>
     );

@@ -5,8 +5,7 @@ import {Navbar} from "./components/navbar/navbar";
 import {BrowserRouter} from 'react-router-dom';
 import "./app.css"
 import {Routes} from './routes';
-import {MessagesData, PostsData, UsersData} from "./types/posts";
-import {State} from './redux/state';
+import {State, store} from './redux/state';
 
 
 export function App(props: State) {
@@ -19,8 +18,9 @@ export function App(props: State) {
                         <Navbar/>
                     </div>
                     <div style={{background: "#332F2C"}} className=" col-10">
-                        <Routes profilePostData={props.profilePostsData} message={props.messagesData}
-                                users={props.usersData}/>
+                        <Routes dispatch={store.dispatch.bind(store)} profilePostData={props.profilePostsData}
+                                dialogsPage={props.dialogsPage}/>
+
                     </div>
                 </div>
             </div>
