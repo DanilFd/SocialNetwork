@@ -1,32 +1,28 @@
 import React, {useRef} from 'react';
 import {Post} from "./Post/Post";
-import {PostsData} from "../../../types/posts";
-import {addPostActionCreator, updateNewPostTextActionCreator} from '../../../redux/state';
+import {actions} from '../../../redux/profileReducer';
+import {useDispatch, useSelector} from "react-redux";
+import {AppState} from "../../../redux";
 
 
-type Props = {
-    posts: PostsData[]
-    newPostText: string
-    dispatch: any
-}
-
-
-export const MyPost = (props: Props) => {
+export const MyPost = () => {
     const newPostElement = useRef<HTMLTextAreaElement>(null)
+    const newPostsText = useSelector((state: AppState) => state.profilePage.newPostText)
+    const postsData = useSelector((state: AppState) => state.profilePage.postsData)
+    const dispatch = useDispatch()
     return (
         <div>
             MyPost
             <div>
                 <textarea ref={newPostElement}
-                          onChange={event => props.dispatch(updateNewPostTextActionCreator(event.target.value))}
-                          value={props.newPostText}/>
-
+                          onChange={event => dispatch(actions.updateNewPost(event.target.value))}
+                          value={newPostsText}/>
                 <div>
-                    <button onClick={() => props.dispatch(addPostActionCreator())}>Add post</button>
+                    <button onClick={() => dispatch(actions.addPost())}>Add post</button>
                 </div>
             </div>
             <div className="p-lg-0">
-                {props.posts.map((post, i) => <Post key={i} message={post.message} likesCount={post.likesCount}/>)}
+                {postsData.map((post, i) => <Post key={i} message={post.message} likesCount={post.likesCount}/>)}
             </div>
         </div>
     );

@@ -1,35 +1,32 @@
 import React, {useRef} from 'react';
 import {User} from "./users/user";
 import {Message} from "./messages/message";
-import {
-    addMessageActionCreator,
-    DialogsPage,
-    updateNewMessageTextActionCreator
-} from '../../redux/state';
+import {actions} from '../../redux/dialogsReducer';
+import {useDispatch, useSelector} from "react-redux";
+import {AppState} from "../../redux";
 
 
-type Props = {
-    dialogsPage: DialogsPage
-    dispatch: any
-    newMessageText: string
-}
-export const Dialogs = (props: Props) => {
+export const Dialogs = () => {
     const newMessageElement = useRef<HTMLTextAreaElement>(null)
+    const newMessageText = useSelector((state: AppState) => state.dialogsPage.newMessageText)
+    const messagesData = useSelector((state: AppState) => state.dialogsPage.messagesData)
+    const userData = useSelector((state: AppState) => state.dialogsPage.usersData)
+    const dispatch = useDispatch()
     return (
         <div style={{color: "white"}} className="row">
             <div className="col-3 ">
-                {props.dialogsPage.usersData.map(user => <User name={user.name} key={user.id} id={user.id}/>)}
+                {userData.map(user => <User name={user.name} key={user.id} id={user.id}/>)}
             </div>
             <div className="col-9">
-                {props.dialogsPage.messagesData.map((message, i) => <Message key={i} message={message.message}/>)}
+                {messagesData.map((message, i) => <Message key={i} message={message.message}/>)}
             </div>
             <div className="m-lg-auto">
                 <textarea ref={newMessageElement}
-                          onChange={event => props.dispatch(updateNewMessageTextActionCreator(event.target.value))}
-                          value={props.newMessageText}/>
+                          onChange={event => dispatch(actions.updateNewMessageText(event.target.value))}
+                          value={newMessageText}/>
             </div>
             <div>
-                <button onClick={() => props.dispatch(addMessageActionCreator())} className="btn btn-dark">Send</button>
+                <button onClick={() => dispatch(actions.addMessage())} className="btn btn-dark">Send</button>
             </div>
         </div>
     );
