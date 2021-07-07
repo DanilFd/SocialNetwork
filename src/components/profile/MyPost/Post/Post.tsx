@@ -1,10 +1,10 @@
-import React, {FC} from 'react';
+import React from 'react';
 
 type Posts = {
     message: string
     likesCount: number
 }
-export const Post: FC<Posts> = (props) => {
+export const Post = (props: Posts) => {
     return (
         <div>
             <img style={{width: 50, borderRadius: 40}}

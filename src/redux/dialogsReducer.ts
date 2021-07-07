@@ -1,4 +1,4 @@
-import {InferValueTypes} from "./index";
+import {InferValueTypes} from "./store";
 
 const initialState = {
     usersData: [{

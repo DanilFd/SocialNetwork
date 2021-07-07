@@ -2,20 +2,18 @@ import React, {useRef} from 'react';
 import {User} from "./users/user";
 import {Message} from "./messages/message";
 import {actions} from '../../redux/dialogsReducer';
-import {useDispatch, useSelector} from "react-redux";
-import {AppState} from "../../redux";
+import {useDispatch} from "react-redux";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 
 export const Dialogs = () => {
     const newMessageElement = useRef<HTMLTextAreaElement>(null)
-    const newMessageText = useSelector((state: AppState) => state.dialogsPage.newMessageText)
-    const messagesData = useSelector((state: AppState) => state.dialogsPage.messagesData)
-    const userData = useSelector((state: AppState) => state.dialogsPage.usersData)
+    const {usersData, messagesData, newMessageText} = useTypedSelector(state => state.dialogsPage)
     const dispatch = useDispatch()
     return (
         <div style={{color: "white"}} className="row">
             <div className="col-3 ">
-                {userData.map(user => <User name={user.name} key={user.id} id={user.id}/>)}
+                {usersData.map(user => <User name={user.name} key={user.id} id={user.id}/>)}
             </div>
             <div className="col-9">
                 {messagesData.map((message, i) => <Message key={i} message={message.message}/>)}

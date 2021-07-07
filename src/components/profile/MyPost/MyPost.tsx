@@ -1,14 +1,13 @@
 import React, {useRef} from 'react';
 import {Post} from "./Post/Post";
 import {actions} from '../../../redux/profileReducer';
-import {useDispatch, useSelector} from "react-redux";
-import {AppState} from "../../../redux";
+import {useDispatch} from "react-redux";
+import {useTypedSelector} from "../../../hooks/useTypedSelector";
 
 
 export const MyPost = () => {
     const newPostElement = useRef<HTMLTextAreaElement>(null)
-    const newPostsText = useSelector((state: AppState) => state.profilePage.newPostText)
-    const postsData = useSelector((state: AppState) => state.profilePage.postsData)
+    const {newPostText, postsData} = useTypedSelector(state => state.profilePage)
     const dispatch = useDispatch()
     return (
         <div>
@@ -16,7 +15,7 @@ export const MyPost = () => {
             <div>
                 <textarea ref={newPostElement}
                           onChange={event => dispatch(actions.updateNewPost(event.target.value))}
-                          value={newPostsText}/>
+                          value={newPostText}/>
                 <div>
                     <button onClick={() => dispatch(actions.addPost())}>Add post</button>
                 </div>
