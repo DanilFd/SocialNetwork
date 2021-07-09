@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 
 export const Navbar = () => {
     return (
-        <nav style={{background: "#332F2C"}}>
+        <nav className="position-fixed" style={{background: "#332F2C"}}>
             <ul style={{padding: 30}} className="nav flex-column nav-pills nav-fill">
                 <li className="nav-item ">
                     <NavLink className="nav-link " to="/profile">Profile</NavLink>

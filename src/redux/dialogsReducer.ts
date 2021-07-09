@@ -4,9 +4,17 @@ const initialState = {
     usersData: [{
         name: "Hasbik", id: 0
     }],
-    messagesData: [{
-        message: ""
-    }],
+    messagesData: [
+        {message: "overflow auto-1"},
+        {message: "overflow auto"},
+        {message: "overflow auto"},
+        {message: "overflow auto"},
+        {message: "overflow auto"},
+        {message: "overflow auto"},
+        {message: "overflow auto"},
+        {message: "overflow auto"},
+        {message: "overflow auto"}
+    ],
     newMessageText: ""
 }
 

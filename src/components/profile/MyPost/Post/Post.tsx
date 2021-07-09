@@ -1,5 +1,4 @@
 import React from 'react';
-
 type Posts = {
     message: string
     likesCount: number

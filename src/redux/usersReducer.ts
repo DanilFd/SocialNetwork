@@ -1,44 +1,17 @@
+import {User} from "../types/types";
 import {InferValueTypes} from "./store";
 
 
 const initialState = {
-    users: [
-        {
-            id: 1,
-            followed: true,
-            fullName: "Hasbik K.",
-            status: "Cola,Pizza,Burgir",
-            location: {
-                city: "Chechnya",
-                country: "Russia"
-            }
-        },
-        {
-            id: 2,
-            followed: false,
-            fullName: "Shaman T.",
-            status: "That's incredible",
-            location: {
-                city: "Oblivion",
-                country: "Hearthstone'"
-            }
-        },
-        {
-            id: 3,
-            followed: false,
-            fullName: "Druid S.",
-            status: "Let's celebrate and suck some dick",
-            location: {
-                city: "Oblivion",
-                country: "Hearthstone"
-            }
-        }
-    ]
+    users: [] as User[],
+    totalUsersCount: 1200,
+    currentPage: 1,
 }
-export type Users = typeof initialState.users
 export const actions = {
     toggleFollow: (userId: number) => ({type: "TOGGLE_FOLLOW", userId} as const),
-    setUsers: (users: Users) => ({type: "SET_USERS", users} as const)
+    setUsers: (users: User[]) => ({type: "SET_USERS", users} as const),
+    setCurrentPage: (currentPage: number) => ({type: "SET_CURRENT_PAGE", currentPage} as const),
+    setTotalUsersCount: (totalUsersCount: number) => ({type: "SET_TOTAL_USERS_COUNT", totalUsersCount} as const)
 }
 type ActionTypes = ReturnType<InferValueTypes<typeof actions>>
 
@@ -47,12 +20,14 @@ export const usersReducer = (state = initialState, action: ActionTypes) => {
         case "TOGGLE_FOLLOW":
             return {
                 ...state,
-                users: state.users.map(u => {
-                    return u.id === action.userId ? {...u, followed: !u.followed} : u
-                })
+                users: state.users.map(u => u.id === action.userId ? {...u, followed: !u.followed} : u)
             }
         case "SET_USERS":
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: [...action.users]}
+        case "SET_CURRENT_PAGE":
+            return {...state, currentPage: action.currentPage}
+        case "SET_TOTAL_USERS_COUNT":
+            return {...state, totalUsersCount: action.totalUsersCount}
         default:
             return state
     }
