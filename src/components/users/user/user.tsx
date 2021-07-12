@@ -1,4 +1,5 @@
 import {useDispatch} from "react-redux";
+import {NavLink} from "react-router-dom";
 import {actions} from "../../../redux/usersReducer";
 import {User as UserType} from "../../../types/types";
 
@@ -13,7 +14,9 @@ export const User = ({user}: Props) => {
                 <div className=" card-body">
                     <div className="container row g-0">
                         <div className="col-10">
-                            <h5 className="card-title">{user.name}</h5>
+                            <NavLink to={"/profile/" + user.id} className="text-decoration-none ">
+                                <h5 style={{display: "inline"}} className="card-title">{user.name}</h5>
+                            </NavLink>
                             <p style={{
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",

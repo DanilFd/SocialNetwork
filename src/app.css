@@ -3,3 +3,13 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+a {
+    color: white;
+
+}
+
+a:hover {
+    text-decoration: underline !important;
+    color: white;
+}

@@ -4,14 +4,16 @@ import {InferValueTypes} from "./store";
 
 const initialState = {
     users: [] as User[],
-    totalUsersCount: 1200,
+    totalUsersCount: 0,
     currentPage: 1,
+    isFetching: false
 }
 export const actions = {
     toggleFollow: (userId: number) => ({type: "TOGGLE_FOLLOW", userId} as const),
     setUsers: (users: User[]) => ({type: "SET_USERS", users} as const),
     setCurrentPage: (currentPage: number) => ({type: "SET_CURRENT_PAGE", currentPage} as const),
-    setTotalUsersCount: (totalUsersCount: number) => ({type: "SET_TOTAL_USERS_COUNT", totalUsersCount} as const)
+    setTotalUsersCount: (totalUsersCount: number) => ({type: "SET_TOTAL_USERS_COUNT", totalUsersCount} as const),
+    toggleIsFetching: (isFetching: boolean) => ({type: "TOGGLE_IS_FETCHING", isFetching} as const)
 }
 type ActionTypes = ReturnType<InferValueTypes<typeof actions>>
 
@@ -28,6 +30,8 @@ export const usersReducer = (state = initialState, action: ActionTypes) => {
             return {...state, currentPage: action.currentPage}
         case "SET_TOTAL_USERS_COUNT":
             return {...state, totalUsersCount: action.totalUsersCount}
+        case "TOGGLE_IS_FETCHING":
+            return {...state, isFetching: action.isFetching}
         default:
             return state
     }
