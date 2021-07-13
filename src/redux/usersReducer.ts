@@ -6,14 +6,14 @@ const initialState = {
     users: [] as User[],
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
 }
 export const actions = {
     toggleFollow: (userId: number) => ({type: "TOGGLE_FOLLOW", userId} as const),
     setUsers: (users: User[]) => ({type: "SET_USERS", users} as const),
     setCurrentPage: (currentPage: number) => ({type: "SET_CURRENT_PAGE", currentPage} as const),
     setTotalUsersCount: (totalUsersCount: number) => ({type: "SET_TOTAL_USERS_COUNT", totalUsersCount} as const),
-    toggleIsFetching: (isFetching: boolean) => ({type: "TOGGLE_IS_FETCHING", isFetching} as const)
+    toggleIsFetching: (isFetching: boolean) => ({type: "TOGGLE_IS_FETCHING", isFetching} as const),
 }
 type ActionTypes = ReturnType<InferValueTypes<typeof actions>>
 
