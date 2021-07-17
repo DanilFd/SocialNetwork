@@ -49,9 +49,8 @@ export type Auth = {
     resultCode: number
 
 }
-
 export type AuthData = {
     id: number,
     login: string,
     email: string
-}
+} | null

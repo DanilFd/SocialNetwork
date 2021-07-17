@@ -8,11 +8,10 @@ export const Navbar = () => {
         <nav className="position-fixed" style={{background: "#332F2C"}}>
             <ul style={{padding: 30}} className="nav flex-column nav-pills nav-fill">
                 <li className="nav-item ">
-                    <NavLink className="nav-link " to={`profile/${userData?.id}`}>My profile</NavLink>
+                    <NavLink className="nav-link" to={`profile/${userData?.id}`}>My profile</NavLink>
                 </li>
                 <li className="nav-item ">
                     <NavLink className="nav-link" to="/messages">Messages</NavLink>
-
                 </li>
                 <li className="nav-item ">
                     <NavLink className="nav-link" to="/users">Users</NavLink>

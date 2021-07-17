@@ -29,3 +29,5 @@ export const postLogin = (LoginRequest: LoginRequest) => api.post<LoginResponse>
             throw new Error()
         }
     )
+export const deleteLogin = () => api.delete<LoginResponse>("/auth/login")
+    .then(res => res.data.resultCode === 0 && res.data.data)

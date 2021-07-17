@@ -5,7 +5,7 @@ import {getProfile} from "../../api/profile";
 import {RootState} from "../store";
 import {ThunkAction} from "redux-thunk";
 import {AnyAction} from "redux";
-import {LoginRequest, postLogin} from "../../api/auth";
+import {deleteLogin, LoginRequest, postLogin} from "../../api/auth";
 
 export const getAuthThunk = (): ThunkAction<void, RootState, unknown, AnyAction> => {
     return (dispatch) => {
@@ -28,4 +28,10 @@ export const postLoginThunk = (loginRequest: LoginRequest): ThunkAction<void, Ro
         postLogin(loginRequest)
             .then(() => dispatch(getAuthThunk()))
             .catch(() => alert("User unfound"))
+}
+export const deleteLoginThunk = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+    return (dispatch) => {
+        deleteLogin()
+            .then(() => dispatch(actions.setUserData(null)))
+    }
 }
