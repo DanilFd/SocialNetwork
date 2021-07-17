@@ -1,14 +1,17 @@
 import {InferValueTypes} from "./store";
 import {PostsData, Profile} from "../types/types";
+
 const initialState = {
     postsData: [] as PostsData[],
     newPostText: "",
-    profile: null as null | Profile
+    profile: null as null | Profile,
+    status: ""
 }
 export const actions = {
     addPost: () => ({type: "ADD_POST"} as const),
     updateNewPost: (text: string) => ({type: "UPDATE_NEW_POST_TEXT", newText: text} as const),
-    setUserProfile: (profile: Profile) => ({type: "SET_USER_PROFILE", profile: profile} as const)
+    setUserProfile: (profile: Profile) => ({type: "SET_USER_PROFILE", profile: profile} as const),
+    setStatusProfile: (status: string) => ({type: "SET_STATUS_PROFILE", status} as const)
 
 
 }
@@ -29,6 +32,8 @@ export const profileReducer = (state = initialState, action: ActionTypes) => {
             return {...state, newPostText: action.newText}
         case "SET_USER_PROFILE":
             return {...state, profile: action.profile}
+        case "SET_STATUS_PROFILE":
+            return {...state, status: action.status}
         default:
             return state
     }

@@ -1,23 +1,14 @@
 import React, {useEffect} from 'react';
 import {NavLink} from 'react-router-dom';
 import {useDispatch} from "react-redux";
-import {getAuth} from "../../api/auth";
-import {actions} from "../../redux/authReducer";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
-import {getProfile} from "../../api/profile";
+import {getAuthThunk} from '../../redux/asyncActions/auth';
 
 export const Header = () => {
     const {userData, userPhotoUrl} = useTypedSelector(state => state.auth)
     const dispatch = useDispatch()
     useEffect(() => {
-        getAuth().then((a) => {
-            if (a) {
-                dispatch(actions.setUserData(a))
-                getProfile(a.id).then((p) => {
-                    dispatch(actions.setUserPhoto(p.photos.small || "https://www.pngitem.com/pimgs/m/24-248235_user-profile-avatar-login-account-fa-user-circle.png"))
-                })
-            }
-        })
+        dispatch(getAuthThunk())
     }, [dispatch])
     return (
         <header className="sticky-top d-flex justify-content-between" style={{backgroundColor: "#332F2C"}}>

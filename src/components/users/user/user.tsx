@@ -1,9 +1,8 @@
 import {useDispatch} from "react-redux";
 import {NavLink} from "react-router-dom";
-import {actions} from "../../../redux/usersReducer";
 import {User as UserType} from "../../../types/types";
-import {sendFollow, sendUnfollow} from "../../../api/follow";
 import {useState} from "react";
+import {sendFollowThunk, sendUnfollow} from "../../../redux/asyncActions/follow";
 
 type Props = {
     user: UserType
@@ -11,18 +10,6 @@ type Props = {
 export const User = ({user}: Props) => {
     const [followingInProgress, setFollowingInProgress] = useState(false)
     const dispatch = useDispatch()
-    const follow = () => {
-        setFollowingInProgress(true)
-        sendFollow(user.id)
-            .then(success => success && dispatch(actions.toggleFollow(user.id)))
-            .finally(() => setFollowingInProgress(false))
-    }
-    const unfollow = () => {
-        setFollowingInProgress(true)
-        sendUnfollow(user.id)
-            .then(success => success && dispatch(actions.toggleFollow(user.id)))
-            .finally(() => setFollowingInProgress(false))
-    }
     return (
         <div className="col-12 col-md-6 p-2">
             <div className="card bg-secondary text-white border-dark">
@@ -40,7 +27,10 @@ export const User = ({user}: Props) => {
                             }}
                                className="card-text">{user.status}</p>
                             <button disabled={followingInProgress}
-                                    onClick={!user.followed ? follow : unfollow}
+                                    onClick={() => !user.followed ?
+                                        dispatch(sendFollowThunk(user.id, setFollowingInProgress)) :
+                                        dispatch(sendUnfollow(user.id, setFollowingInProgress))
+                                    }
                                     className="btn btn-dark">{user.followed ? "Unfollow" : "Follow"}</button>
                         </div>
                         <div className="col-2">

@@ -4,9 +4,10 @@ import {Message} from "./messages/message";
 import {actions} from '../../redux/dialogsReducer';
 import {useDispatch} from "react-redux";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {WithLoginRedirect} from "../../hoc/withLoginRedirect";
 
 
-export const Dialogs = () => {
+const RawDialogs = () => {
     const newMessageElement = useRef<HTMLTextAreaElement>(null)
     const {usersData, messagesData, newMessageText} = useTypedSelector(state => state.dialogsPage)
     const dispatch = useDispatch()
@@ -35,4 +36,12 @@ export const Dialogs = () => {
         </div>
     );
 };
+export const Dialogs = () =>
+    <WithLoginRedirect>
+        <RawDialogs/>
+    </WithLoginRedirect>
+
+
+
+
 

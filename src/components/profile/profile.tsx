@@ -1,30 +1,32 @@
 import React, {useEffect} from 'react';
 import {MyPost} from "./MyPost/MyPost";
 import {ProfileInfo} from "./profileInfo/profileInfo";
-import {getProfile} from "../../api/profile";
 import {useDispatch} from "react-redux";
-import {actions} from "../../redux/profileReducer";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useParams} from 'react-router-dom';
+import {getProfileThunk} from '../../redux/asyncActions/profile';
+import {WithLoginRedirect} from "../../hoc/withLoginRedirect";
 
 type Params = {
     userId: string
 }
 
-export const Profile = () => {
+const RawProfile = () => {
     const params = useParams<Params>()
-    const {profile, newPostText, postsData} = useTypedSelector(state => state.profilePage)
+    const {profile, newPostText, postsData, status} = useTypedSelector(state => state.profilePage)
     const dispatch = useDispatch()
     useEffect(() => {
-        getProfile(params.userId).then(p => {
-            dispatch(actions.setUserProfile(p))
-        })
+        dispatch(getProfileThunk(params.userId))
     }, [dispatch, params.userId])
     return (
         <div style={{color: "white"}}>
-            <ProfileInfo profile={profile}/>
+            <ProfileInfo status={status} profile={profile}/>
             <MyPost newPostText={newPostText} postsData={postsData}/>
         </div>
     );
 };
+
+export const Profile = () => <WithLoginRedirect>
+    <RawProfile/>
+</WithLoginRedirect>
 

@@ -3,23 +3,19 @@ import {User} from './user/user';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useDispatch} from "react-redux";
 import {actions} from "../../redux/usersReducer";
-import {getUsers} from "../../api/users";
 import {createPages} from "../../utils/pagesCreator";
 import {Loader} from "../shared/loader";
+import {getUsersThunk} from '../../redux/asyncActions/users';
+import {WithLoginRedirect} from "../../hoc/withLoginRedirect";
 
-export const Users = () => {
+const RawUsers = () => {
     const {users, totalUsersCount, currentPage, isFetching} = useTypedSelector(state => state.usersPage)
     const dispatch = useDispatch()
     const pagesCount = Math.ceil(totalUsersCount / 10)
     const pages: number[] = []
     createPages(pages, pagesCount, currentPage)
     useEffect(() => {
-        dispatch(actions.toggleIsFetching(true))
-        getUsers(currentPage).then((u) => {
-            dispatch(actions.setUsers(u.items))
-            dispatch(actions.setTotalUsersCount(u.totalCount))
-            dispatch(actions.toggleIsFetching(false))
-        })
+        dispatch(getUsersThunk(currentPage))
     }, [dispatch, currentPage])
     return (
         <>
@@ -47,4 +43,7 @@ export const Users = () => {
 
     );
 };
+export const Users = () => <WithLoginRedirect>
+    <RawUsers/>
+</WithLoginRedirect>
 
